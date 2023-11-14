@@ -3,10 +3,12 @@ package christmas;
 class Order {
     private String itemName;
     private int quantity;
+    private String category;
 
     public Order(String itemName, int quantity, int price){
         this.itemName = itemName;
         this.quantity = quantity;
+        this.category = Menu.getMenu(itemName).getCategory();
     }
 
     public String getItemName(){
@@ -15,6 +17,10 @@ class Order {
 
     public int getQuantity(){
         return quantity;
+    }
+
+    public String getCategory(){
+        return category;
     }
 
     public int getTotalPrice(){
