@@ -9,13 +9,13 @@ public enum Discount {
     CHAMPAGNE_VALUE(25000),
     THRESHOLD_FOR_CHAMPAGNE(120000);
 
-    private final int value;
+    private final int price;
 
-    Discount(int value){
-        this.value = value;
+    Discount(int price){
+        this.price = price;
     }
 
-    public int getValue(){
-        return value;
+    public int getPrice(){
+        return price;
     }
 }
