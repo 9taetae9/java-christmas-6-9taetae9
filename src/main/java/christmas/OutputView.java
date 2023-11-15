@@ -16,20 +16,13 @@ public class OutputView {
         }
         System.out.println();
     }
-    private static String getDiscountDetailsMessage(int totalDiscount) {
-        if (totalDiscount > 0) {
-            return "크리스마스 디데이 할인: -" + totalDiscount + "원";
-        }
-        return "없음";
-    }
-
 
     public static void printOrderDetails(int date, List<Order> orders) {
         int totalOrderAmount = DiscountCalculator.totalOrderAmount(orders);
         int totalDiscountExcludingChampagne = calculateTotalDiscountWithoutChampagne(date, orders);
         int finalPayment = totalOrderAmount - totalDiscountExcludingChampagne;
         int totalDiscountIncludingChampagne = calculateTotalDiscountIncludingChampagne(date, orders);
-        Badge badge = Badge.getBadgeByDiscount(totalDiscountIncludingChampagne);
+        Badge badge = Badge.getBadgeByDiscount(totalDiscountIncludingChampagne, totalOrderAmount);
 
         String discountDetails = DiscountCalculator.constructDiscountDetails(date, orders);
 
@@ -50,5 +43,4 @@ public class OutputView {
     private static String formatCurrency(int amount) {
         return String.format("%,d원", amount);
     }
-
 }
