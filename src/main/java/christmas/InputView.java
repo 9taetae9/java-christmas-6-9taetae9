@@ -3,7 +3,9 @@ package christmas;
 import camp.nextstep.edu.missionutils.Console;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class InputView {
     public static int readDate() {
@@ -41,15 +43,24 @@ public class InputView {
     private static List<Order> parseOrders(String orderInputLine) throws IllegalArgumentException {
         String[] userOrders = orderInputLine.trim().split(",");
         List<Order> orders = new ArrayList<>();
+        Set<String> orderNames = new HashSet<>();
+
         for (String userOrder : userOrders) {
             String[] orderParts = userOrder.trim().split("-");
             if (orderParts.length != 2) {
                 throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
             }
+
             String menuName = orderParts[0].trim();
             int menuQuantity = parseQuantity(orderParts[1].trim());
+
+            if (!orderNames.add(menuName)) {
+                throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+            }
+
             orders.add(new Order(menuName, menuQuantity));
         }
+        EventValidator.validateNotOnlyOrderedBeverage(orders);
         return orders;
     }
 
