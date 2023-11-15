@@ -45,14 +45,4 @@ public enum Menu {
         }
         throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
     }
-
-    public static boolean isMenuNameValid(String menu) {
-        for (Menu m : Menu.values()) {
-            if (m.getMenuname().equals(menu)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }
