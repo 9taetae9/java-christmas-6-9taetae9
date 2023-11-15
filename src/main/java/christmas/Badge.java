@@ -16,7 +16,10 @@ public enum Badge {
         this.threshold = threshold;
     }
 
-    public static Badge getBadgeByDiscount(int totalDiscount) {
+    public static Badge getBadgeByDiscount(int totalDiscount, int totalOrderAmount){
+        if(totalOrderAmount<10000) {
+            return NONE;
+        }
         if(totalDiscount >= SANTA.threshold){
             return SANTA;
         }
@@ -32,5 +35,4 @@ public enum Badge {
     public String getBadgeName() {
         return badgeName;
     }
-
 }
