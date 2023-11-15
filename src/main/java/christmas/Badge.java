@@ -17,20 +17,20 @@ public enum Badge {
     }
 
     public static Badge getBadgeByDiscount(int totalDiscount) {
-        Badge awaredBadge = NONE;
-        for (Badge badge : Badge.values()) {
-            if (totalDiscount >= badge.threshold) {
-                awaredBadge = badge;
-            }
+        if(totalDiscount >= SANTA.threshold){
+            return SANTA;
         }
-        return awaredBadge;
+        if(totalDiscount >= TREE.threshold){
+            return TREE;
+        }
+        if(totalDiscount >= STAR.threshold){
+            return STAR;
+        }
+        return NONE;
     }
 
     public String getBadgeName() {
         return badgeName;
     }
 
-    public int getThreshold() {
-        return threshold;
-    }
 }
