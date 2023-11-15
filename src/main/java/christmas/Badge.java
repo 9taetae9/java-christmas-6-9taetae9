@@ -1,5 +1,7 @@
 package christmas;
 
+import java.lang.String;
+
 public enum Badge {
     NONE("없음", 0),
     STAR("별", 5000),
@@ -14,19 +16,21 @@ public enum Badge {
         this.threshold = threshold;
     }
 
+    public static Badge getBadgeByDiscount(int totalDiscount) {
+        Badge awaredBadge = NONE;
+        for (Badge badge : Badge.values()) {
+            if (totalDiscount >= badge.threshold) {
+                awaredBadge = badge;
+            }
+        }
+        return awaredBadge;
+    }
+
+    public String getBadgeName() {
+        return badgeName;
+    }
 
     public int getThreshold() {
         return threshold;
-    }
-
-    public static String getBadgeByDiscount(int totalDiscount) {
-        Badge awaredBadge = Badge.NONE;
-        for (Badge badge : Badge.values()) {
-            if (totalDiscount >= badge.getThreshold()) {
-                awaredBadge = badge;
-                continue;
-            } break;
-        }
-        return awaredBadge.badgeName;
     }
 }
