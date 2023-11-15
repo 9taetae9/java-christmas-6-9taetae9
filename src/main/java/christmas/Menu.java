@@ -15,18 +15,18 @@ public enum Menu {
     RED_WINE("레드와인", 60000, "Beverage"),
     CHAMPAGNE("샴페인", 25000, "Beverage");;
 
-    private final String name;
+    private final String menuname;
     private final int price;
     private final String category;
 
-    Menu(String name, int price, String category){
-        this.name = name;
+    Menu(String menuname, int price, String category){
+        this.menuname = menuname;
         this.price = price;
         this.category = category;
     }
 
-    public String getName(){
-        return name;
+    public String getMenuname(){
+        return menuname;
     }
 
     public int getPrice(){
@@ -39,7 +39,7 @@ public enum Menu {
 
     public static Menu getMenu(String name) {
         for (Menu menu : Menu.values()) {
-            if (menu.getName().equals(name)) {
+            if (menu.getMenuname().equals(name)) {
                 return menu;
             }
         }
@@ -48,7 +48,7 @@ public enum Menu {
 
     public static boolean isMenuNameValid(String menu) {
         for (Menu m : Menu.values()) {
-            if (m.getName().equals(menu)) {
+            if (m.getMenuname().equals(menu)) {
                 return true;
             }
         }

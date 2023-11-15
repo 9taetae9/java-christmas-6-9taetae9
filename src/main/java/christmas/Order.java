@@ -1,29 +1,29 @@
 package christmas;
 
 class Order {
-    private String itemName;
-    private int quantity;
-    private String category;
+    private String menuName;
+    private int menuQuantity;
+    private String menuCategory;
 
     public Order(String itemName, int quantity){
-        this.itemName = itemName;
-        this.quantity = quantity;
-        this.category = Menu.getMenu(itemName).getCategory();
+        this.menuName = itemName;
+        this.menuQuantity = quantity;
+        this.menuCategory = Menu.getMenu(itemName).getCategory();
     }
 
-    public String getItemName(){
-        return itemName;
+    public String getMenuName(){
+        return menuName;
     }
 
-    public int getQuantity(){
-        return quantity;
+    public int getMenuQuantity(){
+        return menuQuantity;
     }
 
-    public String getCategory(){
-        return category;
+    public String getMenuCategory(){
+        return menuCategory;
     }
 
     public int getTotalPrice(){
-        return Menu.getMenu(itemName).getPrice() * quantity;
+        return Menu.getMenu(menuName).getPrice() * menuQuantity;
     }
 }
