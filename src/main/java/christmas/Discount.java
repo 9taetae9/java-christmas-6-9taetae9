@@ -7,7 +7,7 @@ public enum Discount {
     WEEKEND_MAIN_DISCOUNT(2023),
     SPECIAL_DISCOUNT(1000),
     CHAMPAGNE_VALUE(25000),
-    THRESHOLD_FOR_CHAMPAGNE(120000);
+    CHAMPAGNE_GIFT_THRESHOLD(120000);
 
     private final int price;
 
