@@ -1,6 +1,7 @@
 package christmas;
 
 import java.util.List;
+import java.util.Set;
 
 public class DiscountCalculator {
    // 할인 계산을 위한 메서드
@@ -15,10 +16,14 @@ public class DiscountCalculator {
 
       // 주문별 할인 계산
       for (Order order : orders) {
-         totalDiscount += calculateOrderDiscount(order, date, isWeekend, isSpecialDay);
+         totalDiscount += calculateOrderDiscount(order, date);
       }
 
       return totalDiscount;
+   }
+
+   public static int calculateFinalPayment(int totalOrderAmount, int totalDiscount) {
+      return totalOrderAmount - (totalDiscount - champagneDiscount(totalOrderAmount));
    }
 
    // 크리스마스 디데이 할인 계산을 위한 메서드
@@ -29,17 +34,19 @@ public class DiscountCalculator {
    }
 
     // 주문별 할인 계산을 위한 메서드
-   private static int calculateOrderDiscount(Order order, int date, boolean isWeekend, boolean isSpecialDay) {
+   private static int calculateOrderDiscount(Order order, int date) {
       int orderDiscount = 0;
+      boolean isWeekend = isWeekend(date);
+      boolean isSpecialDay = isSpecialDay(date);
 
       //평일 디저트 할인
-      if (!isWeekend && order.getCategory().equals("Dessert")) {
-         orderDiscount += Discount.WEEKDAY_DESSERT_DISCOUNT.getPrice() * order.getQuantity();
+      if (!isWeekend && "Dessert".equals(order.getMenuCategory())) {
+         orderDiscount += Discount.WEEKDAY_DESSERT_DISCOUNT.getPrice() * order.getMenuQuantity();
       }
 
       //주말 메인 할인
-      if (isWeekend && order.getCategory().equals("Main")) {
-         orderDiscount += Discount.WEEKEND_MAIN_DISCOUNT.getPrice() * order.getQuantity();
+      if (isWeekend && "Main".equals(order.getMenuCategory())){
+         orderDiscount += Discount.WEEKEND_MAIN_DISCOUNT.getPrice() * order.getMenuQuantity();
       }
 
       //스페셜 할인
@@ -50,9 +57,14 @@ public class DiscountCalculator {
       return orderDiscount;
    }
 
-   public static boolean qualifiesForChampagne(List<Order> orders) {
-      int totalOrderAmount = orders.stream().mapToInt(Order::getTotalPrice).sum();
-      return totalOrderAmount >= Discount.CHAMPAGNE_GIFT_THRESHOLD.getPrice();
+   private static int totalOrderAmount(List<Order> orders) {
+      return orders.stream().mapToInt(Order::getTotalPrice).sum();
+   }
+
+   private static int champagneDiscount(int totalOrderAmount) {
+      if(totalOrderAmount >= Discount.CHAMPAGNE_GIFT_THRESHOLD.getPrice()){
+         return Discount.CHAMPAGNE_VALUE.getPrice();
+      } return 0;
    }
 
    private static boolean isWeekend(int date) {
@@ -60,7 +72,7 @@ public class DiscountCalculator {
    }
 
    private static boolean isSpecialDay(int data){
-      List<Integer> specialDays = List.of(3,10,17,24,25,31);
+      Set<Integer> specialDays = Set.of(3,10,17,24,25,31);
       return specialDays.contains(data);
    }
 }
