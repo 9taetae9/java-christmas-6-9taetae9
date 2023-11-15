@@ -1,6 +1,7 @@
 package christmas;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class EventValidator {
     public static void isDateValid(int date) {
@@ -31,9 +32,17 @@ public class EventValidator {
         }
     }
 
+    public static void validateNotOnlyOrderedBeverage(List<Order> orders) {
+        boolean nonBeverageFound = orders.stream()
+                .anyMatch(order -> !order.getMenuCategory().equalsIgnoreCase("Beverage"));
+        if (!nonBeverageFound) {
+            throw new IllegalArgumentException("[ERROR] 주문에는 음료만 포함될 수 없습니다. 다시 입력해 주세요.");
+        }
+    }
+
     private static boolean isMenuNameValid(String menu) {
         return Arrays.stream(Menu.values())
-                .anyMatch(m -> m.getMenuname().equalsIgnoreCase(menu));
+                .anyMatch(m -> Boolean.parseBoolean(m.getMenuname()));
     }
 
     private static boolean isQuantityValid(int quantity) {
