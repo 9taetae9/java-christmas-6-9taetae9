@@ -15,24 +15,25 @@ public class EventValidator {
         }
         String[] parts = orderInput.trim().split("-");
         if (parts.length != 2) {
-            throw new IllegalArgumentException("[ERROR] 주문 형식이 잘못되었습니다.");
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
         }
-        String itemName = parts[0].trim();
-        int quantity;
+        String menuName = parts[0].trim();
+        if(!isMenuNameValid(menuName)){
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+        }
         try {
-            quantity = Integer.parseInt(parts[1].trim());
+            int menuQuantity = Integer.parseInt(parts[1].trim());
+            if(!isQuantityValid(menuQuantity)){
+                throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+            }
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] 수량은 숫자로 입력해 주세요.");
-        }
-
-        if (!isMenuNameValid(itemName) || !isQuantityValid(quantity)) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
         }
     }
 
     private static boolean isMenuNameValid(String menu) {
         return Arrays.stream(Menu.values())
-                .anyMatch(m -> m.getName().equalsIgnoreCase(menu));
+                .anyMatch(m -> m.getMenuname().equalsIgnoreCase(menu));
     }
 
     private static boolean isQuantityValid(int quantity) {
