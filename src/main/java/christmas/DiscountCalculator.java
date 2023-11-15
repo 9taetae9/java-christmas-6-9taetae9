@@ -21,6 +21,9 @@ public class DiscountCalculator {
 
    public static int calculateTotalDiscountWithoutChampagne(int date, List<Order> orders) {
       int totalDiscount = 0;
+      if(totalOrderAmount(orders)<10000)
+            return 0;
+
       for (Order order : orders) {
          totalDiscount += calculateOrderDiscount(date, order);
       }
@@ -51,9 +54,12 @@ public class DiscountCalculator {
    }
 
    public static String constructDiscountDetails(int date, List<Order> orders) {
-      StringBuilder discountDetails = new StringBuilder();
+      if(totalOrderAmount(orders)<10000)
+            return "없음";
 
+      StringBuilder discountDetails = new StringBuilder();
       int christmasDiscount = calculateChristmasDiscount(date);
+
       if (christmasDiscount > 0) {
          addDiscountDetail(discountDetails, "크리스마스 디데이 할인", christmasDiscount);
       }
@@ -96,7 +102,6 @@ public class DiscountCalculator {
          details.append(type).append(":\n없음\n");
       }
    }
-
 
    public static int totalOrderAmount(List<Order> orders) {
       return orders.stream().mapToInt(Order::getTotalPrice).sum();
