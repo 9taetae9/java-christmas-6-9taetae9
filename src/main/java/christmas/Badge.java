@@ -6,29 +6,27 @@ public enum Badge {
     TREE("트리", 10000),
     SANTA("산타", 20000);
 
-    private String badgeName;
-    private int threshold
+    private final String badgeName;
+    private final int threshold;
 
-    Badge(String badgeName, int threshold){
+    Badge(String badgeName, int threshold) {
         this.badgeName = badgeName;
         this.threshold = threshold;
     }
 
-    public String getBadgeName(){
-        return badgeName;
-    }
 
-    public int getThreshold(){
+    public int getThreshold() {
         return threshold;
     }
 
-    public static String getBadgeNameByDiscount(int totalDiscount){
-        Badge badge = Badge.NONE;
-        for(Badge b : Badge.values()){
-            if(totalDiscount>=b.getThreshold()){
-                badge = b;
-            }
+    public static String getBadgeByDiscount(int totalDiscount) {
+        Badge awaredBadge = Badge.NONE;
+        for (Badge badge : Badge.values()) {
+            if (totalDiscount >= badge.getThreshold()) {
+                awaredBadge = badge;
+                continue;
+            } break;
         }
-        return badge.getBadgeName();
+        return awaredBadge.badgeName;
     }
 }
