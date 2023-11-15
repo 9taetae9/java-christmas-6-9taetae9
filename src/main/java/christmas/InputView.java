@@ -7,36 +7,57 @@ import java.util.List;
 
 public class InputView {
     public static int readDate() {
-        while(true) {
-            System.out.println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
-            try{
-                int date = Integer.parseInt(Console.readLine().trim());
+        while (true) {
+            try {
+                System.out.println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
+                String input = Console.readLine().trim();
+
+                if (!input.matches("\\d+")) {
+                    throw new NumberFormatException();
+                }
+                int date = Integer.parseInt(input);
                 EventValidator.isDateValid(date);
                 return date;
-            }catch (IllegalArgumentException e){
+            } catch (NumberFormatException e) {
+                System.out.println("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
     public static List<Order> readOrder() {
-        List<Order> orders = new ArrayList<>();
         System.out.println("주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)");
-        while(true) {
+        while (true) {
+            String orderInputLine = Console.readLine();
             try {
-                String[] userOrders = Console.readLine().trim().split(",");
-                for (String order : userOrders) {
-                    EventValidator.validateOrderInput(order);
-                    String[] orderParts = order.trim().split("-");
-                    String menuName = orderParts[0].trim();
-                    int menuQuantity = Integer.parseInt(orderParts[1].trim());
-                    orders.add(new Order(menuName, menuQuantity));
-                }
-                return orders;
-            }catch (IllegalArgumentException e){
+                return parseOrders(orderInputLine);
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
-                orders.clear();
             }
+        }
+    }
+
+    private static List<Order> parseOrders(String orderInputLine) throws IllegalArgumentException {
+        String[] userOrders = orderInputLine.trim().split(",");
+        List<Order> orders = new ArrayList<>();
+        for (String userOrder : userOrders) {
+            String[] orderParts = userOrder.trim().split("-");
+            if (orderParts.length != 2) {
+                throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+            }
+            String menuName = orderParts[0].trim();
+            int menuQuantity = parseQuantity(orderParts[1].trim());
+            orders.add(new Order(menuName, menuQuantity));
+        }
+        return orders;
+    }
+
+    private static int parseQuantity(String quantityStr) {
+        try {
+            return Integer.parseInt(quantityStr);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
         }
     }
 
