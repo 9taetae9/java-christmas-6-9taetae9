@@ -49,8 +49,9 @@ public class DiscountCalculator {
       return orderDiscount;
    }
 
-   public static boolean isChampagne(int totalOrderAmount) {
-      return totalOrderAmount >= Discount.THRESHOLD_FOR_CHAMPAGNE.getPrice();
+   public static boolean qualifiesForChampagne(List<Order> orders) {
+      int totalOrderAmount = orders.stream().mapToInt(Order::getTotalPrice).sum();
+      return totalOrderAmount >= Discount.CHAMPAGNE_GIFT_THRESHOLD.getPrice();
    }
 
    private static boolean isWeekend(int date) {
