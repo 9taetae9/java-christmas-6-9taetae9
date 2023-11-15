@@ -10,9 +10,8 @@ public class DiscountCalculator {
       int totalDiscount = 0;
 
       // 크리스마스 디데이 할인 계산
-      if (date >= 1 && date <= 25) {
-         totalDiscount += calculateChristmasDiscount(date);
-      }
+      totalDiscount += calculateChristmasDiscount(date);
+
 
       // 주문별 할인 계산
       for (Order order : orders) {
@@ -23,8 +22,10 @@ public class DiscountCalculator {
    }
 
    // 크리스마스 디데이 할인 계산을 위한 메서드
-   private static int calculateChristmasDiscount(int day) {
-      return Discount.CHRISTMAS_DISCOUNT_START.getPrice() + (day - 1) * Discount.DAILY_INCREMENT.getPrice();
+   private static int calculateChristmasDiscount(int date) {
+      if (date >= 1 && date <= 25) {
+         return Discount.CHRISTMAS_DISCOUNT_START.getPrice() + (date - 1) * Discount.DAILY_INCREMENT.getPrice();
+      } return 0;
    }
 
     // 주문별 할인 계산을 위한 메서드
